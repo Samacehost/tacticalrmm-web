@@ -99,7 +99,7 @@ export default function ({ app, router }) {
         }
       }
 
-      if ((text || error.response) && error.response.status !== 423) {
+      if ((text || error.response) && error.response?.status !== 423) {
         Notify.create({
           color: "negative",
           message: text ? text : "",
