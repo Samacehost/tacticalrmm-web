@@ -639,7 +639,7 @@ export default {
   height: 100%;
   z-index: 1;
   border: none;
-  opacity: 0.85;
+  opacity: 1;
 }
 
 .win-desktop-grid {
@@ -648,6 +648,7 @@ export default {
   gap: 16px;
   max-width: 600px;
   z-index: 5;
+  pointer-events: none;
 }
 
 .win-desktop-icon {
@@ -656,6 +657,7 @@ export default {
   transition: background-color 0.2s ease;
   background-color: rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
+  pointer-events: auto;
 }
 
 .win-desktop-icon:hover {

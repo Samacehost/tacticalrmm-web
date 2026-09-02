@@ -36,8 +36,10 @@ export function runRemoteBackground(agent_id, agentPlatform) {
 }
 
 export function runBackgroundWorkspace(agent_id, agentPlatform = "windows") {
+  const id = typeof agent_id === "object" ? agent_id.agent_id : agent_id;
+  const plat = typeof agent_id === "object" ? (agent_id.plat || agentPlatform) : agentPlatform;
   const url = router.resolve(
-    `/bgworkspace/${agent_id}?agentPlatform=${agentPlatform}`,
+    `/bgworkspace/${id}?agentPlatform=${plat}`,
   ).href;
   openURL(url, null, {
     ...getCenteredWindowOptions(1600, 900),
