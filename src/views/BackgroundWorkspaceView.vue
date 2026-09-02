@@ -400,14 +400,24 @@ export default {
     const currentUser = computed(() => store.state.user?.username || "technician");
 
     async function getMeshURLs() {
+      if (!params.agent_id || params.agent_id === "undefined") {
+        $q.notify({
+          type: "warning",
+          message: "No valid Agent ID specified. Please launch Background Windows Access from a managed agent.",
+          timeout: 4000,
+        });
+        return;
+      }
       $q.loading.show();
       try {
         const data = await fetchAgentMeshCentralURLs(params.agent_id);
-        control.value = data.control;
-        hostname.value = data.hostname;
-        useMeta({
-          title: `${data.hostname} - ${data.client} - ${data.site} | Background Windows Access`,
-        });
+        if (data && data.control) {
+          control.value = data.control;
+          hostname.value = data.hostname;
+          useMeta({
+            title: `${data.hostname} - ${data.client} - ${data.site} | Background Windows Access`,
+          });
+        }
       } catch (e) {
         console.error(e);
       }
