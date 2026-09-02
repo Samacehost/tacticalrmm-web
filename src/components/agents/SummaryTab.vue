@@ -256,6 +256,7 @@ import { fetchCustomFields } from "@/api/core";
 
 // ui imports
 import AgentActionMenu from "@/components/agents/AgentActionMenu.vue";
+import BackgroundWorkspaceModal from "@/components/modals/BackgroundWorkspaceModal.vue";
 
 export default {
   name: "SummaryTab",
@@ -379,12 +380,12 @@ export default {
     });
 
     function showBackgroundWindowsAccess() {
-      $q.notify({
-        type: "info",
-        color: "amber-9",
-        icon: "construction",
-        message: "Background Windows Access feature is under active development (Dummy Action).",
-        timeout: 3000,
+      $q.dialog({
+        component: BackgroundWorkspaceModal,
+        componentProps: {
+          agentId: selectedAgent.value?.agent_id || "",
+          hostname: selectedAgent.value?.hostname || "Client PC",
+        },
       });
     }
 

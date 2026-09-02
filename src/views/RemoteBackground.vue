@@ -166,6 +166,7 @@ import RegistryManager from "@/components/agents/remotebg/RegistryManager.vue";
 import registryIcon from "../assets/windows-registry.png";
 import TerminalManager from "@/components/agents/remotebg/TerminalManager.vue";
 import CoBrowseModal from "@/components/modals/CoBrowseModal.vue";
+import BackgroundWorkspaceModal from "@/components/modals/BackgroundWorkspaceModal.vue";
 
 export default {
   name: "RemoteBackground",
@@ -202,12 +203,12 @@ export default {
     }
 
     function showDummyNotification() {
-      $q.notify({
-        type: "info",
-        color: "amber-9",
-        icon: "construction",
-        message: "Background Windows Access feature is under active development (Dummy Action).",
-        timeout: 3000,
+      $q.dialog({
+        component: BackgroundWorkspaceModal,
+        componentProps: {
+          agentId: agent_id.value,
+          hostname: "Client PC",
+        },
       });
     }
 
