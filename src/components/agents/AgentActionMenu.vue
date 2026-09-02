@@ -132,6 +132,14 @@
       <q-item-section>Remote Background</q-item-section>
     </q-item>
 
+    <!-- background windows access (dummy) -->
+    <q-item clickable v-ripple v-close-popup @click="showBackgroundWindowsAccess">
+      <q-item-section side>
+        <q-icon size="xs" name="desktop_windows" />
+      </q-item-section>
+      <q-item-section>Background Windows Access</q-item-section>
+    </q-item>
+
     <!-- maintenance mode -->
     <q-item clickable v-close-popup @click="toggleMaintenance(agent)">
       <q-item-section side>
@@ -589,6 +597,16 @@ export default {
       });
     }
 
+    function showBackgroundWindowsAccess() {
+      $q.notify({
+        type: "info",
+        color: "amber-9",
+        icon: "construction",
+        message: "Background Windows Access feature is under active development (Dummy Action).",
+        timeout: 3000,
+      });
+    }
+
     onMounted(async () => {
       await getURLActions();
       await getFavoriteScripts();
@@ -602,6 +620,7 @@ export default {
 
       // methods
       showCoBrowseModal,
+      showBackgroundWindowsAccess,
       showEditAgent,
       showPendingActionsModal,
       runTakeControl,

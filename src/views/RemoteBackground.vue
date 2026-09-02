@@ -35,6 +35,8 @@
           <span class="q-ml-sm font">Registry</span>
         </div>
       </q-tab>
+      <q-tab name="cobrowse" icon="security" label="Co-Browsing (User Chrome)" />
+      <q-tab name="winaccess" icon="desktop_windows" label="Background Windows Access" />
     </q-tabs>
     <q-separator />
     <q-tab-panels v-model="tab">
@@ -95,6 +97,52 @@
       >
         <RegistryManager :agent_id="agent_id" />
       </q-tab-panel>
+
+      <!-- Co-Browsing Tab Panel -->
+      <q-tab-panel name="cobrowse" class="q-pa-md">
+        <div class="row justify-center q-py-xl">
+          <div class="col-12 col-md-8 text-center bg-grey-10 q-pa-lg rounded-borders">
+            <q-icon name="security" size="64px" color="primary" class="q-mb-md" />
+            <div class="text-h5 text-weight-bold q-mb-xs">Authorized Co-Browsing (User Chrome)</div>
+            <div class="text-subtitle1 text-grey-4 q-mb-md">
+              Initiate single-tab WebRTC co-browsing and remote browser control with explicit client consent.
+            </div>
+            <div class="q-gutter-x-sm">
+              <q-btn
+                color="primary"
+                icon="security"
+                label="Launch Co-Browsing Session"
+                size="md"
+                @click="openCoBrowse"
+              />
+            </div>
+          </div>
+        </div>
+      </q-tab-panel>
+
+      <!-- Background Windows Access Dummy Tab Panel -->
+      <q-tab-panel name="winaccess" class="q-pa-md">
+        <div class="row justify-center q-py-xl">
+          <div class="col-12 col-md-8 text-center bg-grey-10 q-pa-lg rounded-borders">
+            <q-icon name="desktop_windows" size="64px" color="amber-8" class="q-mb-md" />
+            <div class="text-h5 text-weight-bold q-mb-xs">Background Windows Access</div>
+            <div class="text-subtitle1 text-grey-4 q-mb-sm">
+              Isolated background desktop & headless workspace management module.
+            </div>
+            <q-chip color="amber-9" text-color="white" icon="construction" label="Dummy Prototype — Feature Under Development" class="q-mb-md" />
+            <div>
+              <q-btn
+                color="amber-8"
+                text-color="black"
+                icon="desktop_windows"
+                label="Launch Background Workspace Access (Dummy)"
+                size="md"
+                @click="showDummyNotification"
+              />
+            </div>
+          </div>
+        </div>
+      </q-tab-panel>
     </q-tab-panels>
   </div>
 </template>
@@ -117,6 +165,7 @@ import EventLogManager from "@/components/agents/remotebg/EventLogManager.vue";
 import RegistryManager from "@/components/agents/remotebg/RegistryManager.vue";
 import registryIcon from "../assets/windows-registry.png";
 import TerminalManager from "@/components/agents/remotebg/TerminalManager.vue";
+import CoBrowseModal from "@/components/modals/CoBrowseModal.vue";
 
 export default {
   name: "RemoteBackground",
@@ -142,6 +191,25 @@ export default {
     const terminalDefaults = ref(null);
 
     const agent_id = computed(() => params.agent_id);
+
+    function openCoBrowse() {
+      $q.dialog({
+        component: CoBrowseModal,
+        componentProps: {
+          agentId: agent_id.value,
+        },
+      });
+    }
+
+    function showDummyNotification() {
+      $q.notify({
+        type: "info",
+        color: "amber-9",
+        icon: "construction",
+        message: "Background Windows Access feature is under active development (Dummy Action).",
+        timeout: 3000,
+      });
+    }
 
     async function getMeshURLs() {
       const data = await fetchAgentMeshCentralURLs(params.agent_id);
@@ -207,6 +275,10 @@ export default {
       registryIcon,
       terminalMode,
       terminalDefaults,
+
+      // methods
+      openCoBrowse,
+      showDummyNotification,
     };
   },
 };
