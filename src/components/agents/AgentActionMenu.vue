@@ -28,6 +28,21 @@
       <q-item-section>Take Control</q-item-section>
     </q-item>
 
+    <!-- cobrowsing -->
+    <q-item
+      v-if="canCoBrowseView"
+      clickable
+      v-ripple
+      v-close-popup
+      @click="showCoBrowseModal(agent.agent_id)"
+    >
+      <q-item-section side>
+        <q-icon size="xs" name="security" />
+      </q-item-section>
+
+      <q-item-section>Co-Browsing</q-item-section>
+    </q-item>
+
     <!-- vnc -->
     <q-item
       clickable
@@ -244,8 +259,7 @@
 </template>
 
 <script>
-// composition imports
-import { ref, inject, onMounted } from "vue";
+import { ref, computed, inject, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useQuasar } from "quasar";
 import { fetchURLActions, runURLAction } from "@/api/core";
@@ -273,6 +287,7 @@ import RebootLater from "@/components/modals/agents/RebootLater.vue";
 import EditAgent from "@/components/modals/agents/EditAgent.vue";
 import SendCommand from "@/components/modals/agents/SendCommand.vue";
 import RunScript from "@/components/modals/agents/RunScript.vue";
+import CoBrowseModal from "@/components/modals/CoBrowseModal.vue";
 import IntegrationsContextMenu from "@/components/ui/IntegrationsContextMenu.vue";
 import ConfirmYesDialog from "@/components/agents/ConfirmYesDialog.vue";
 
@@ -295,6 +310,19 @@ export default {
 
     const urlActions = ref([]);
     const favoriteScripts = ref([]);
+
+    const canCoBrowseView = computed(
+      () => store.state.user?.role?.can_cobrowse_view ?? false,
+    );
+
+    function showCoBrowseModal(agent_id) {
+      $q.dialog({
+        component: CoBrowseModal,
+        componentProps: {
+          agentId: agent_id,
+        },
+      });
+    }
 
     function showEditAgent(agent_id) {
       $q.dialog({
@@ -570,8 +598,10 @@ export default {
       // reactive data
       urlActions,
       favoriteScripts,
+      canCoBrowseView,
 
       // methods
+      showCoBrowseModal,
       showEditAgent,
       showPendingActionsModal,
       runTakeControl,
