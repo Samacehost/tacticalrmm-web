@@ -155,6 +155,7 @@ import { useQuasar, useMeta } from "quasar";
 import {
   fetchAgentMeshCentralURLs,
   fetchAgentTerminalDefaults,
+  runBackgroundWorkspace,
 } from "@/api/agents";
 import { fetchDashboardInfo } from "@/api/core";
 
@@ -166,7 +167,6 @@ import RegistryManager from "@/components/agents/remotebg/RegistryManager.vue";
 import registryIcon from "../assets/windows-registry.png";
 import TerminalManager from "@/components/agents/remotebg/TerminalManager.vue";
 import CoBrowseModal from "@/components/modals/CoBrowseModal.vue";
-import BackgroundWorkspaceModal from "@/components/modals/BackgroundWorkspaceModal.vue";
 
 export default {
   name: "RemoteBackground",
@@ -203,13 +203,7 @@ export default {
     }
 
     function showDummyNotification() {
-      $q.dialog({
-        component: BackgroundWorkspaceModal,
-        componentProps: {
-          agentId: agent_id.value,
-          hostname: "Client PC",
-        },
-      });
+      runBackgroundWorkspace(agent_id.value, "windows");
     }
 
     async function getMeshURLs() {

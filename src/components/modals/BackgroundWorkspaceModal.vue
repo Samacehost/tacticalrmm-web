@@ -489,7 +489,7 @@ export default {
 
     function updateClock() {
       const now = new Date();
-      currentTimeFormatted.value = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      currentTimeFormatted.value = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
     }
 
     function execCmd() {

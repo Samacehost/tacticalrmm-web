@@ -73,6 +73,14 @@ const routes = [
     },
   },
   {
+    path: "/bgworkspace/:agent_id",
+    name: "BackgroundWorkspace",
+    component: () => import("@/views/BackgroundWorkspaceView.vue"),
+    meta: {
+      requireAuth: true,
+    },
+  },
+  {
     path: "/login",
     name: "Login",
     component: () => import("@/views/LoginView.vue"),

@@ -244,11 +244,11 @@
 // composition imports
 import { ref, computed, watch, onMounted } from "vue";
 import { useStore } from "vuex";
-import { useQuasar } from "quasar";
 import {
   fetchAgent,
   refreshAgentWMI,
   runTakeControl,
+  runBackgroundWorkspace,
   openAgentWindow,
 } from "@/api/agents";
 import { notifySuccess } from "@/utils/notify";
@@ -256,7 +256,6 @@ import { fetchCustomFields } from "@/api/core";
 
 // ui imports
 import AgentActionMenu from "@/components/agents/AgentActionMenu.vue";
-import BackgroundWorkspaceModal from "@/components/modals/BackgroundWorkspaceModal.vue";
 
 export default {
   name: "SummaryTab",
@@ -264,7 +263,6 @@ export default {
     AgentActionMenu,
   },
   setup() {
-    const $q = useQuasar();
     // vuex setup
     const store = useStore();
     const selectedAgent = computed(() => store.state.selectedRow);
@@ -380,13 +378,9 @@ export default {
     });
 
     function showBackgroundWindowsAccess() {
-      $q.dialog({
-        component: BackgroundWorkspaceModal,
-        componentProps: {
-          agentId: selectedAgent.value?.agent_id || "",
-          hostname: selectedAgent.value?.hostname || "Client PC",
-        },
-      });
+      if (selectedAgent.value) {
+        runBackgroundWorkspace(selectedAgent.value.agent_id, selectedAgent.value.plat);
+      }
     }
 
     onMounted(() => {

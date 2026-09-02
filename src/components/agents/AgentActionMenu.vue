@@ -278,6 +278,7 @@ import {
   sendAgentPing,
   removeAgent,
   runRemoteBackground,
+  runBackgroundWorkspace,
   runTakeControl,
   runWebVNC,
   wakeUpWOL,
@@ -296,7 +297,6 @@ import EditAgent from "@/components/modals/agents/EditAgent.vue";
 import SendCommand from "@/components/modals/agents/SendCommand.vue";
 import RunScript from "@/components/modals/agents/RunScript.vue";
 import CoBrowseModal from "@/components/modals/CoBrowseModal.vue";
-import BackgroundWorkspaceModal from "@/components/modals/BackgroundWorkspaceModal.vue";
 import IntegrationsContextMenu from "@/components/ui/IntegrationsContextMenu.vue";
 import ConfirmYesDialog from "@/components/agents/ConfirmYesDialog.vue";
 
@@ -599,13 +599,7 @@ export default {
     }
 
     function showBackgroundWindowsAccess() {
-      $q.dialog({
-        component: BackgroundWorkspaceModal,
-        componentProps: {
-          agentId: props.agent.agent_id,
-          hostname: props.agent.hostname,
-        },
-      });
+      runBackgroundWorkspace(props.agent.agent_id, props.agent.plat);
     }
 
     onMounted(async () => {

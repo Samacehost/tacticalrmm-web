@@ -35,6 +35,15 @@ export function runRemoteBackground(agent_id, agentPlatform) {
   });
 }
 
+export function runBackgroundWorkspace(agent_id, agentPlatform = "windows") {
+  const url = router.resolve(
+    `/bgworkspace/${agent_id}?agentPlatform=${agentPlatform}`,
+  ).href;
+  openURL(url, null, {
+    ...getCenteredWindowOptions(1600, 900),
+  });
+}
+
 export async function fetchAgents(params = {}) {
   try {
     const { data } = await axios.get(`${baseUrl}/`, { params: params });
