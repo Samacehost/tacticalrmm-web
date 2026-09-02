@@ -71,6 +71,16 @@
         class="q-mr-sm"
         @click="runTakeControl(selectedAgent)"
       />
+      <q-btn
+        dense
+        flat
+        label="Background Windows Access"
+        icon="desktop_windows"
+        size="md"
+        no-caps
+        class="q-mr-sm"
+        @click="showBackgroundWindowsAccess"
+      />
       <q-btn-dropdown dense flat size="md" no-caps label="Actions">
         <AgentActionMenu :agent="summary" />
       </q-btn-dropdown>
@@ -234,6 +244,7 @@
 // composition imports
 import { ref, computed, watch, onMounted } from "vue";
 import { useStore } from "vuex";
+import { useQuasar } from "quasar";
 import {
   fetchAgent,
   refreshAgentWMI,
@@ -252,6 +263,7 @@ export default {
     AgentActionMenu,
   },
   setup() {
+    const $q = useQuasar();
     // vuex setup
     const store = useStore();
     const selectedAgent = computed(() => store.state.selectedRow);
@@ -366,6 +378,16 @@ export default {
       store.commit("setRefreshSummaryTab", false);
     });
 
+    function showBackgroundWindowsAccess() {
+      $q.notify({
+        type: "info",
+        color: "amber-9",
+        icon: "construction",
+        message: "Background Windows Access feature is under active development (Dummy Action).",
+        timeout: 3000,
+      });
+    }
+
     onMounted(() => {
       if (selectedAgent.value) getSummary();
     });
@@ -390,6 +412,7 @@ export default {
       refreshSummary,
       diskBarColor,
       runTakeControl,
+      showBackgroundWindowsAccess,
       openAgentWindow,
     };
   },
