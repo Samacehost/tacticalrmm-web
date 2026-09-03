@@ -379,7 +379,7 @@ export default {
 
     function showBackgroundWindowsAccess() {
       if (selectedAgent.value) {
-        runBackgroundWorkspace(selectedAgent.value.agent_id, selectedAgent.value.plat);
+        runBackgroundWorkspace(selectedAgent.value, summary.value?.plat || "windows");
       }
     }
 
